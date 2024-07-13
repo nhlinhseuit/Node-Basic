@@ -1,38 +1,22 @@
-import connection from '../configs/connectDB'
+import pool from '../configs/connectDB'
 
 // đối với express thì với file js 
 // mặc định truyền vào tham số req và res
-let getHomepage = (req, res) => {
+let getHomepage = async (req, res) => {
 
-    let data = []
+    const [rows, fields] = await pool.execute('SELECT * FROM `users`');
 
-    connection.query(
-        'SELECT * FROM `users`',
-        function (err, results, fields) {
-            console.log('>>> check query');
-            console.log(results)
+    return res.render('index.ejs', { dataUser: rows })
+}
 
-            results.map((item) => {
-                data.push({
-                    id: item.id,
-                    email: item.email,
-                    firstName: item.firstName,
-                    lastName: item.lastName,
-                    address: item.address,
-                })
-            }
-            )
-            console.log('>>> check data');
-            console.log(data)
-
-            return res.render('index.ejs', { dataUser: data })
-        }
-
-    );
+let getDetailPage = async (req, res) => {
+    let id = req.params.id
+    let user = await pool.execute(`select * from users where id = ?`, [id])
+    console.log('check user params: ', user[0])
+    return res.send(user[0])
 
 }
 
 module.exports = {
-    getHomepage
-
+    getHomepage, getDetailPage
 }

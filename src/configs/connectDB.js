@@ -1,23 +1,19 @@
 // Get the client
-import mysql from 'mysql2';
+import mysql from 'mysql2/promise';
 
-// Create the connection to database
-const connection = mysql.createConnection({
+// // Create the connection to database
+// const connection = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     database: 'nodejsbasic',
+// });
+
+const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     database: 'nodejsbasic',
-});
+})
 
 
-// connection.query(
-//     'SELECT * FROM `users`',
-//     function (err, results, fields) {
-//         console.log('>>> check query');
-
-//         let rows = results.map((item) => item.firstName)
-//         console.log(rows)
-//     }
-// );
-
-export default connection;
+export default pool;
 
