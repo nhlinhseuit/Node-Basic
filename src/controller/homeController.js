@@ -1,4 +1,6 @@
 import pool from '../configs/connectDB'
+import multer from 'multer'
+import path from 'path'
 
 // đối với express thì với file js 
 // mặc định truyền vào tham số req và res
@@ -47,6 +49,38 @@ let postUpdateUser = async (req, res) => {
     return res.redirect('/')
 }
 
+let getUploadFilePage = async (req, res) => {
+    return res.render('upload_file.ejs')
+}
+
+let upload = multer().single('profile_pic')
+
+let handleUploadFile = async (req, res) => {
+    console.log(req.file)
+
+    upload(req, res, function (err) {
+        // req.file contains information of uploaded file
+        // req.body contains information of text fields, if there were any
+
+        if (req.fileValidationError) {
+            return res.send(req.fileValidationError);
+        }
+        else if (!req.file) {
+            return res.send('Please select an image to upload');
+        }
+        else if (err instanceof multer.MulterError) {
+            return res.send(err);
+        }
+        else if (err) {
+            return res.send(err);
+        }
+
+        // Display uploaded image for user validation
+        res.send(`You have uploaded this image: <hr/><img src="/image/${req.file.filename}" width="500"><hr /><a href="/upload">Upload another image</a>`);
+    });
+}
+
+
 module.exports = {
-    getHomepage, getDetailPage, createNewUser, deleteUser, getEditPage, postUpdateUser
+    getHomepage, getDetailPage, createNewUser, deleteUser, getEditPage, postUpdateUser, getUploadFilePage, handleUploadFile
 }
