@@ -75,3 +75,7 @@ body {
 .label {
     display: block;
 }
+
+.upload-single-div {
+    padding-top: 20px;
+}
