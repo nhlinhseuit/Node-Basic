@@ -6,7 +6,7 @@ import path from 'path'
 // mặc định truyền vào tham số req và res
 let getHomepage = async (req, res) => {
 
-    const [rows, fields] = await pool.execute('SELECT * FROM `users`');
+    const [rows, fields] = await pool.execute('SELECT * FROM `Users`');
 
     return res.render('index.ejs', { dataUser: rows })
 }

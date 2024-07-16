@@ -11,7 +11,9 @@ import mysql from 'mysql2/promise';
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    database: 'nodejsbasic',
+    password: '123456',
+    port: 3307, // default: 3306
+    database: 'hoidanit',
 })
 
 
